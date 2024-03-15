@@ -1,0 +1,9 @@
+# build the image
+docker build -t bwtool-container . --platform linux/amd64
+
+# run the image
+docker run -it --rm bwtool-container
+
+# tag the docker image
+
+docker tag bwtool-container:latest  jchouaref/bwtool-container:latest
