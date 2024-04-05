@@ -1,17 +1,9 @@
-FROM rocker/r-base:4.3.3
+FROM bioconductor/bioconductor_docker:devel-amd64
 
-#set the working directory
 
-WORKDIR /workdir
+RUN R -e "install.packages(c('data.table', 'BiocManager', 'ggplot2', 'patchwork'), repos='http://cran.us.r-project.org')"
 
-# copy the install packages script to the working directory
+RUN R -e "BiocManager::install(c('rtracklayer', 'GenomicRanges'))"
 
-COPY install_007_generate_matrices_for_visualization.sh /workdir
-
-# run the R package installation script
-
-RUN /bin/bash -c "chmod +x install_007_generate_matrices_for_visualization.sh && ./install_007_generate_matrices_for_visualization.sh"
-
-# set starting command
 
 CMD ["/bin/bash"]

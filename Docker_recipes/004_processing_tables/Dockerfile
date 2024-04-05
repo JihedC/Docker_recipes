@@ -1,17 +1,13 @@
-FROM rocker/r-base:4.3.3
+FROM bioconductor/bioconductor_docker:devel-amd64
 
-#set the working directory
 
-WORKDIR /workdir
+RUN R -e "install.packages(c('data.table', 'devtools', 'BiocManager'), repos='http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('devtools'), repos='http://cran.us.r-project.org')"
 
-# copy the install packages script to the working directory
+# install rtracklayer
 
-COPY install_004_processing_tables.sh /workdir
-
-# run the R package installation script
-
-RUN /bin/bash -c "chmod +x install_004_processing_tables.sh && ./install_004_processing_tables.sh"
-
-# set starting command
+RUN R -e "BiocManager::install(c('plyranges', 'rtracklayer'))"
+# install splicejam
+RUN R -e "devtools::install_github('jmw86069/splicejam', force = TRUE)"
 
 CMD ["/bin/bash"]

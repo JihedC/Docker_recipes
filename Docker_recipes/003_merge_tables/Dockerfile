@@ -1,17 +1,6 @@
-FROM rocker/r-base:4.3.3
+FROM rocker/r-base
 
-#set the working directory
-
-WORKDIR /workdir
-
-# copy the install packages script to the working directory
-
-COPY install_003_merge_tables.sh /workdir
-
-# run the R package installation script
-
-RUN /bin/bash -c "chmod +x install_003_merge_tables.sh && ./install_003_merge_tables.sh"
-
+RUN R -e "install.packages(c('data.table'), repos='http://cran.us.r-project.org')"
 # set starting command
 
 CMD ["/bin/bash"]

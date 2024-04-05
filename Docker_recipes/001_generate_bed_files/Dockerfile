@@ -1,4 +1,4 @@
-FROM rocker/r-base:4.3.3
+FROM bioconductor/bioconductor_docker:devel-amd64
 
 #set the working directory
 

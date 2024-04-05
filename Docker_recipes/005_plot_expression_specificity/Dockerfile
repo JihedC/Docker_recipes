@@ -1,17 +1,11 @@
-FROM rocker/r-base:4.3.3
+FROM bioconductor/bioconductor_docker:devel-amd64
 
-#set the working directory
 
-WORKDIR /workdir
+RUN R -e "install.packages(c('data.table'), repos='http://cran.us.r-project.org')"
+RUN R -e "install.packages(c('ggplot2'), repos='http://cran.us.r-project.org')"
 
-# copy the install packages script to the working directory
+RUN R -e "install.packages(c('RColorBrewer'), repos='http://cran.us.r-project.org')"
+RUN R -e "BiocManager::install('preprocessCore', configure.args = c(preprocessCore = '--disable-threading'), force= TRUE, update=TRUE, type = 'source')"
 
-COPY install_005_plot_expression_specificity.sh /workdir
-
-# run the R package installation script
-
-RUN /bin/bash -c "chmod +x install_005_plot_expression_specificity.sh && ./install_005_plot_expression_specificity.sh"
-
-# set starting command
 
 CMD ["/bin/bash"]
